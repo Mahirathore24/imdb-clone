@@ -1,38 +1,110 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.app-shell {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  background: radial-gradient(circle at 20% 20%, #1a2844, #0d1425 50%, #0a0f1a);
+  color: #f5f7fb;
+  padding: 48px 20px 64px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.hero {
+  max-width: 1100px;
+  margin: 0 auto 32px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.hero__text h1 {
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  margin: 8px 0 12px;
+  letter-spacing: -0.03em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.hero__text .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: #7cb7ff;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.subhead {
+  margin: 0;
+  color: #c8d3e6;
+  line-height: 1.5;
+}
+
+.search-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f7fb;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-box input::placeholder {
+  color: #9fb3d9;
+}
+
+.search-box input:focus {
+  border-color: #7cb7ff;
+  box-shadow: 0 0 0 3px rgba(124, 183, 255, 0.25);
+}
+
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.status {
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status--error {
+  background: rgba(255, 87, 87, 0.15);
+  color: #ffbbbb;
+  border: 1px solid rgba(255, 87, 87, 0.4);
+}
+
+.status--empty {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e1e7f5;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+}
+
+.status--loading {
+  background: rgba(124, 183, 255, 0.12);
+  color: #d2e6ff;
+  border: 1px solid rgba(124, 183, 255, 0.35);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
   }
 }
