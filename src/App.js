@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
+import { searchMovies, fetchPopularMovies } from "./api";
 import "./App.css";
-
-const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
-const API_URL = `https://www.omdbapi.com/?apikey=${API_KEY}&type=movie&s=`;
 
 function App() {
   const [query, setQuery] = useState("");
@@ -12,26 +10,33 @@ function App() {
   const [error, setError] = useState("");
   const [noResults, setNoResults] = useState(false);
 
-  const fetchMovies = useCallback(async (searchTerm) => {
-    if (!API_KEY) {
-      setError("Missing OMDb API key. Set REACT_APP_OMDB_API_KEY in your env.");
-      setMovies([]);
-      setNoResults(false);
-      return;
-    }
+  // Fetch popular movies on initial load
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+      setIsLoading(true);
+      setError("");
 
+      try {
+        const popularMovies = await fetchPopularMovies();
+        setMovies(popularMovies);
+      } catch (err) {
+        setError(err.message || "Failed to load popular movies.");
+        setMovies([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPopularMovies();
+  }, []);
+
+  const fetchMoviesFromSearch = useCallback(async (searchTerm) => {
     setIsLoading(true);
     setError("");
     setNoResults(false);
 
     try {
-      const response = await fetch(`${API_URL}${encodeURIComponent(searchTerm)}`);
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
+      const data = await searchMovies(searchTerm);
 
       if (data.Response === "True" && Array.isArray(data.Search)) {
         setMovies(data.Search);
@@ -50,30 +55,45 @@ function App() {
     }
   }, []);
 
+  // Debounced search effect
   useEffect(() => {
     if (!query.trim()) {
-      setMovies([]);
-      setNoResults(false);
-      setError("");
+      // When search is cleared, reload popular movies
+      const loadPopularMovies = async () => {
+        setIsLoading(true);
+        setError("");
+        setNoResults(false);
+
+        try {
+          const popularMovies = await fetchPopularMovies();
+          setMovies(popularMovies);
+        } catch (err) {
+          setError(err.message || "Failed to load popular movies.");
+          setMovies([]);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      loadPopularMovies();
       return;
     }
 
     const debounceId = setTimeout(() => {
-      fetchMovies(query);
+      fetchMoviesFromSearch(query);
     }, 500);
 
     return () => clearTimeout(debounceId);
-  }, [fetchMovies, query]);
+  }, [fetchMoviesFromSearch, query]);
 
   return (
     <div className="app-shell">
       <header className="hero">
         <div className="hero__text">
-          <p className="eyebrow">Search Movies</p>
-          <h1>Find your next movie night pick</h1>
+          <p className="eyebrow">IMDb Clone</p>
+          <h1>Discover Movies</h1>
           <p className="subhead">
-            Start typing to search the OMDb catalog. Results update with a gentle
-            debounce to avoid unnecessary requests.
+            {query ? "Search results update with debouncing" : "Browse popular movies or search by title"}
           </p>
         </div>
         <div className="search-box">

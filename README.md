@@ -1,6 +1,102 @@
-# Getting Started with Create React App
+# IMDb Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based movie discovery app that allows users to search and browse movies using the OMDb API.
+
+## Features
+
+- 🎬 **Popular Movies Display** - Browse trending movies on initial load
+- 🔍 **Real-time Search** - Search movies by title with debounced API calls (500ms delay)
+- 📱 **Responsive Design** - Mobile-friendly grid layout that adapts to all screen sizes
+- ⏱️ **Timer Component** - Built-in hook-based timer with start, pause, and reset functionality
+- 🎨 **Modern UI** - Dark gradient theme with smooth transitions and hover effects
+- ⚡ **Performance Optimized** - Uses React Hooks (useState, useEffect, useCallback) for efficient state management
+
+## Tech Stack
+
+- **React 18** - UI library with functional components and Hooks
+- **OMDb API** - Movie database for fetching movie information
+- **CSS3** - Modern styling with gradients, flexbox, and grid layouts
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+- OMDb API Key (free at [https://www.omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx))
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Mahirathore24/imdb-clone.git
+cd imdb-clone
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Create a `.env` file in the root directory:
+```bash
+cp .env.example .env
+```
+
+4. Add your OMDb API key to the `.env` file:
+```
+REACT_APP_OMDB_API_KEY=your_api_key_here
+```
+
+5. Start the development server:
+```bash
+npm start
+```
+
+The app will open at [http://localhost:3000](http://localhost:3000)
+
+## Project Structure
+
+```
+src/
+├── api.js              # API service layer for OMDb integration
+├── App.js              # Main app component with search functionality
+├── App.css             # Main app styling
+├── MovieCard.jsx       # Reusable movie card component
+├── MovieCard.css       # Movie card styling
+├── Timer.jsx           # Hook-based timer component
+├── Timer.css           # Timer component styling
+└── index.js            # App entry point
+```
+
+## API Service
+
+The `api.js` file provides three main functions:
+
+- `searchMovies(query)` - Search movies by title
+- `fetchPopularMovies()` - Get popular movies (randomized selection)
+- `fetchMovieDetails(imdbID)` - Get detailed information for a specific movie
+
+## Components
+
+### App
+Main component that manages:
+- Popular movies display on load
+- Debounced search functionality
+- Loading, error, and empty state handling
+- Responsive grid layout
+
+### MovieCard
+Displays individual movie information:
+- Movie poster with fallback image
+- Title, release year, and rating
+- Hover effects for better UX
+
+### Timer
+Interactive timer component featuring:
+- Start, pause, and reset controls
+- Time display in HH:MM:SS format
+- Disabled state for buttons when appropriate
 
 ## Available Scripts
 
